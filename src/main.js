@@ -15,32 +15,15 @@ app.use(router);
 import Swal from 'sweetalert2'
 window.Swal = Swal
 
-function loggedIn() {
-  return localStorage.getItem('token');
-}
+// const loggedIn = localStorage.getItem('token');
 
 app.mount("#app");
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!loggedIn()) {
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      })
-    } else {
-        next()
-    }
-  } else if(to.matched.some(record => record.meta.guest)) {
-    if (loggedIn()) {
-      next({
-        path: '/',
-        query: { redirect: to.fullPath }
-      })
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.name !== 'connexion' && !loggedIn) next({ name: 'connexion' })
+//   else next()
+
+//   if (loggedIn) next({ name: 'pairs.index' })
+//   else next()
+  
+// })
