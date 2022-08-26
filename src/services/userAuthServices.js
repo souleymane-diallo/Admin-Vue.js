@@ -4,19 +4,19 @@ import router from '../router';
 
 export default function useAuth() {
   const errors = ref('');
+  const currentUser = ref('');
+  const token = ref(localStorage.getItem('token'));
 
   const createRegister = async (data) => {
     errors.value = '';
 
     try {
       let response = await axios.post("http://127.0.0.1:8000/api/register", data);
-      console.log(response.data.data);
-
-      await router.push("/login");
+    
+      await router.push({ name: 'connexion' });
     } catch(error) {
-      const createRegisterErrors = error.response.data.errors;
+      const createRegisterErrors = error.response.data;
       errors.value = createRegisterErrors;
-      console.log(errors.value);
     }
 
   };
@@ -27,9 +27,9 @@ export default function useAuth() {
     try {
       let response = await axios.post("http://127.0.0.1:8000/api/login", data);
       localStorage.setItem('token', response.data);
-      console.log(response.data.data);
       
-      await router.push("/dashboard");
+      await router.push('/');
+    
     } catch(error) {
       const createRegisterErrors = error.response.data.errors;
       errors.value = createRegisterErrors;
@@ -37,21 +37,37 @@ export default function useAuth() {
   };
 
   const createLogout = async () => {
+
     try {
       let response = await axios.post("http://127.0.0.1:8000/api/logout");
       localStorage.removeItem('token');
-      await router.push('/login');
+      
+      await router.push({ name: 'connexion' });
     } catch (error) {
-      const createRegisterErrors = error.response.data.errors;
-      errors.value = createRegisterErrors;
+      console.log(error.response.data);
     }
     
+  };
+
+  // methode pour récupérer l'utilisateur connecté
+  const getUser = async () => {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`;
+
+    try {
+      let response = await axios.get('http://127.0.0.1:8000/api/user');
+      currentUser.value = response.data;
+    } catch (error) {
+      console.log(error.response.data);
+    }
   };
 
   return {
     errors,
     createRegister,
     createLogin,
-    createLogout
+    createLogout,
+    token,
+    currentUser,
+    getUser
   }
 }
