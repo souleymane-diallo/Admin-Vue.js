@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-2xl mx-auto">
+  <div class="max-w-sm mx-auto">
     <div
       class="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm p-4 sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
       <form class="space-y-6" @submit.prevent="login">
@@ -7,8 +7,8 @@
         <div>
           <label for="email" class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Your email</label>
           <input type="email" name="email" id="email" v-model="form.email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required="">
-          <div  v-if="errors.name" class="text-red-400">
-            {{ errors.name[0] }}
+          <div  v-if="errors.email" class="text-red-400">
+            {{ errors.email[0] }}
           </div>
         </div>
         <div>
@@ -37,6 +37,7 @@ export default {
 
   setup() {
     const { errors, createLogin } = useAuth();
+    
     const form = reactive({
       email: '',
       password: '',
