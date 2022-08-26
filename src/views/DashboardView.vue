@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <div class="flex mb-4">
         <router-link 
-          to="create" 
+          :to="{ name: 'pairs.create'}"
           class="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-3 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Créer une paire
@@ -66,7 +66,7 @@
             </td>
             <td
               class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-              <router-link to="/">
+              <router-link :to="{name: 'pairs.edit', params: {id: pair.id } }">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -76,7 +76,7 @@
             </td>
             <td
                 class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                <button type="button">
+                <button type="button" @click="deletePair(pair.id)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -92,24 +92,24 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { onMounted } from 'vue';
 import usePairs from '../services/pairsService';
 
 export default {
   name: 'DashboardView',
-  //const token = localStorage.getItem('token');
-  setup() {
-    const { pairs, getPairs } = usePairs();
 
-    onMounted(
-      //axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`,
-      getPairs()
-      
-    );
+  setup() {
+    const { pairs, getPairs, destroyPair } = usePairs();
+
+    onMounted(getPairs());
+
+    const deletePair = async (id) => {
+      await destroyPair(id);
+    };
 
     return {
-      pairs
+      pairs,
+      deletePair,
     }
   }
 
