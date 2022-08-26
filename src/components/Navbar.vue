@@ -31,15 +31,30 @@
           :class="showMenu ? 'flex' : 'hidden'"
           class="flex-col mt-8 space-y-4 md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0"
         >
-          <li class="text-sm font-bold text-gray-800 hover:text-blue-400">
-            Home
-          </li>
-          <li class="text-sm font-bold text-gray-800 hover:text-blue-400">
-            About
-          </li>
-          <li class="text-sm font-bold text-gray-800 hover:text-blue-400">
-            <button class="btn btn-danger" @click="logout">Déconnexion</button>
-          </li>
+          <template v-if="token">
+            <li class="text-sm font-bold text-gray-800 hover:text-blue-400">
+              <router-link 
+                class="font-bold text-gray-800 md:text-md hover:text-blue-400" 
+                to="/currencies">
+                  Dashboard Currency
+              </router-link>
+            </li>
+            <li class="text-sm font-bold text-gray-800 hover:text-blue-400">
+              {{ currentUser.name }}
+            </li>
+          
+            <li class="text-sm font-bold text-gray-800 hover:text-blue-400">
+              <button class="bg-blue-700 hover:bg-blue-800 focus:ring-4 p-3 text-white" @click="logout">Déconnexion</button>
+            </li>
+          </template>
+          <template v-else>
+            <li class="text-sm font-bold text-gray-800 hover:text-blue-400">
+              <router-link to="/register">Register</router-link>
+            </li>
+            <li class="text-sm font-bold text-gray-800 hover:text-blue-400">
+              <router-link to="/login">Login</router-link>
+            </li>
+          </template>
         </ul>
       </nav>
     </div>
@@ -47,22 +62,35 @@
 </template>
 
 <script>
-
+import { ref, onMounted } from 'vue';
+import useAuth from '../services/userAuthServices';
 export default {
   name: "NavBar",
-  
-  data() {
-    return {
-      showMenu: false,
+
+  setup() {
+    const showMenu = ref(false);
+
+    const { createLogout, currentUser, token, getUser } = useAuth();
+
+    const toggleNav = () => {
+      showMenu.value = !showMenu.value
     }
-  },
 
-  methods: {
-    toggleNav() {
-      this.showMenu = !this.showMenu;
-    },
-  },
+    const logout = async () => {
+      await createLogout();
+    };
 
+    onMounted(getUser());
+
+    return {
+      toggleNav,
+      showMenu,
+      logout,
+      currentUser,
+      token
+    }
+  }
+  
 };
 
 </script>
