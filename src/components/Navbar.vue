@@ -10,7 +10,6 @@
             class="text-xl font-bold text-gray-800 md:text-2xl hover:text-blue-400"
             >MoneyValue
           </router-link>
-          <!-- Mobile menu button -->
           <div @click="showMenu = !showMenu" class="flex md:hidden">
             <button
               type="button"
@@ -26,7 +25,6 @@
           </div>
         </div>
 
-        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
         <ul
           :class="showMenu ? 'flex' : 'hidden'"
           class="flex-col mt-8 space-y-4 md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0"
@@ -44,7 +42,7 @@
             </li>
           
             <li class="text-sm font-bold text-gray-800 hover:text-blue-400">
-              <button class="bg-blue-700 hover:bg-blue-800 focus:ring-4 p-3 text-white" @click="logout">Déconnexion</button>
+              <button class="bg-blue-700 hover:bg-blue-800 focus:ring-4 px-5 py-2 rounded-full text-white" @click="logout">Déconnexion</button>
             </li>
           </template>
           <template v-else>

@@ -66,15 +66,15 @@ const router = createRouter({
   ],
 });
 
-const loggedIn = localStorage.getItem('token');
+// const loggedIn = localStorage.getItem('token');
 
-router.beforeEach((to, from, next) => {
-  if (to.name !== 'connexion'  && !loggedIn) next({ name: 'connexion' })
-  else next()
+// router.beforeEach((to, from, next) => {
+//   if (to.name !== 'connexion'  && !loggedIn) next({ name: 'connexion' })
+//   else next()
 
-  if (loggedIn) next({ name: 'pairs.index' })
-  else next()
+//   if (loggedIn) next({ name: 'pairs.index' })
+//   else next()
   
-})
+// })
 
 export default router;

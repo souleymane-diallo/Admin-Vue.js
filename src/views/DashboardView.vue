@@ -14,6 +14,10 @@
             <tr>
                 <th
                   class="px-6 py-3 text-xs font-medium leading-4  text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                  #
+                </th>
+                <th
+                  class="px-6 py-3 text-xs font-medium leading-4  text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                   Nom Paire
                 </th>
                 <th
@@ -39,7 +43,10 @@
             </tr>
         </thead>
         <tbody class="bg-white">
-          <tr v-for="pair in pairs" :key="pair.id">
+          <tr v-for="(pair, index) in pairs" :key="pair.id">
+            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div class="text-sm leading-5 text-gray-500">{{ index+1 }}</div>
+            </td>
             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                 <div class="flex items-center">
                   <div class="text-sm font-medium leading-5 text-center text-gray-900">

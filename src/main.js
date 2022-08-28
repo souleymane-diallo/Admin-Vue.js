@@ -15,15 +15,15 @@ app.use(router);
 import Swal from 'sweetalert2'
 window.Swal = Swal
 
-// const loggedIn = localStorage.getItem('token');
+const loggedIn = localStorage.getItem('token');
 
 app.mount("#app");
 
-// router.beforeEach((to, from, next) => {
-//   if (to.name !== 'connexion' && !loggedIn) next({ name: 'connexion' })
-//   else next()
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'connexion' && !loggedIn) next({ name: 'connexion' })
+  else next()
 
-//   if (loggedIn) next({ name: 'pairs.index' })
-//   else next()
+  if (loggedIn) next({ name: 'pairs.index' })
+  else next()
   
-// })
+})
