@@ -28,7 +28,7 @@ export default function useAuth() {
       let response = await axios.post("http://127.0.0.1:8000/api/login", data);
       localStorage.setItem('token', response.data);
       
-      await router.push('/');
+      await router.push({ name: 'pairs.index' });
     
     } catch(error) {
       const createRegisterErrors = error.response.data.errors;
@@ -42,14 +42,15 @@ export default function useAuth() {
       let response = await axios.post("http://127.0.0.1:8000/api/logout");
       localStorage.removeItem('token');
       
+      console.log(response.data);
       await router.push({ name: 'connexion' });
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error.response);
     }
     
   };
 
-  // methode pour récupérer l'utilisateur connecté
+  //methode pour récupérer l'utilisateur connecté
   const getUser = async () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`;
 
